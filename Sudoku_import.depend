@@ -1,0 +1,25 @@
+# depslib dependency file v1.0
+1608561274 source:d:\tp c\sudoku_tests\sudoku_import\main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	<string.h>
+	<math.h>
+	<windows.h>
+	<time.h>
+	"rlutil/rlutil.h"
+
+1571580739 d:\tp c\sudoku_tests\sudoku_import\rlutil\rlutil.h
+	<iostream>
+	<string>
+	<cstdio>
+	<stdio.h>
+	<string.h>
+	<windows.h>
+	<conio.h>
+	<termios.h>
+	<unistd.h>
+	<sys/ioctl.h>
+	<sys/types.h>
+	<sys/time.h>
+
