@@ -5,6 +5,7 @@
 #include <math.h>
 #include <windows.h>
 #include <time.h>
+#include <dirent.h>
 /*un fichier contient des fonctions pour ajouter des couleurs dans la consoles
 car la bibliotheque conio.h ne marche pas avec le compilateur Migw de codeblocks*/
 #include "rlutil/rlutil.h"
@@ -273,16 +274,19 @@ void creer_menu(int sudoku[9][9])
     {
         case 1:
             system("cls");
-        choix_niveau(sudoku);
-        break;
+            choix_niveau(sudoku);
+            break;
         case 2:
-        break;
+            system("cls");
+            reprendre(sudoku);
+            break;
         case 3:
-        break;
+            break;
         case 4:
-        break;
-        case 5: exit(30);
-        break;
+            break;
+        case 5:
+            exit(30);
+            break;
     }
 }
 
@@ -355,6 +359,7 @@ void remplir_sudoku(int sudoku[9][9])
     }
 
 }
+//une fonction pour sauvegarder le sudoku dans un fichier .txt dans le dossier sauvegarder
 void sauvegarder(int sudoku[9][9])
 {
     char c;
@@ -423,7 +428,73 @@ void afficher_resulat(int sudoku[9][9])
     else
     {
         printf("\n Vous avez perdu \n");
-        sauvegarder(sudoku);
+        delay(2500);
+        system("cls");
+        creer_menu(sudoku);
+        //sauvegarder(sudoku);
+    }
+
+}
+//fonction qui affiche les noms des fichiers enregistrer dans le dossier sauvegard apres l'utilisateur doit entrer le nom du fichier
+//si le nom existe on affiche le sudoku enregistree dans ce fichier
+void reprendre(int sudoku[9][9])
+{
+    //utilisation de la bibliotheque dirent.h
+    DIR *dir;
+    struct dirent *ent;
+
+    int k=0;
+    char tab[20][50];
+    system("cls");
+    printf("\n les parties deja sauvegarder sont:\n\n");
+    /* D:\\TP C\\Sudoku_tests\\test\\sauv test\\ */
+    //ouvrire le dossier sauvegard qui se trouve dans le meme dossier du projet
+    if ((dir = opendir ("sauvegard\\")) != NULL) {
+      /* print all the files and directories within directory */
+      while ((ent = readdir (dir)) != NULL) {
+        //pour ne pas afficher les 2 premieres dossier qui : . et ..
+        if(k!=0 && k!=1)
+            printf ("\t %s\n", ent->d_name);
+
+        strcpy(tab[k],ent->d_name);
+        k++;
+      }
+      closedir (dir);
+    } else {
+      // peut ne pas ouvrire le dossier
+      perror ("");
+      return EXIT_FAILURE;
+    }
+    char part[50];
+
+    int count=0;
+
+    printf("\n entrer le nom de la partie souhaiter: ");
+    scanf(" %s",part);
+
+    for(int i=0;i<k;i++)
+    {
+        if(strcmp(tab[i],part)==0)
+            count++;
+    }
+    char*path;
+    if(count==1)
+    {
+        printf("\n fichier trouver");
+        strcpy(path,"sauvegard");
+        strcat(path,"/");
+        strcat(path,part);
+        import_sudoku(sudoku,path);
+        //affiche(sudoku,level);
+        remplir_sudoku(sudoku);
+    }
+
+    else
+    {
+        printf("\n fichier non trouver");
+        delay(1500);
+        system("cls");
+        creer_menu(sudoku);
     }
 
 }
