@@ -11,6 +11,8 @@ car la bibliotheque conio.h ne marche pas avec le compilateur Migw de codeblocks
 #include "rlutil/rlutil.h"
 //variable globale pour stocker le niveau de jeu facile ou moyen ou difficile
 char* level;
+//variable globale pour enregitrer le temps pour resoudre le sudoku
+double temps_de_jeu;
 //pour verifier si le sudoku contient encore des 0
 //si il a trouver un seul 0 il retourn false sinon true
 bool is_empty(int sudoku[9][9])
@@ -86,8 +88,8 @@ void affiche(int sudoku[9][9],char*niveau)
     printf("\nNiveau: %s",niveau);
     setColor(12);
     printf("\t\t\t\t Appuyer sur [-1] pour revenir au menu");
-    setColor(YELLOW);
-    printf("\nTemps: 00:00:00");
+    //setColor(YELLOW);
+    //printf("\nTemps: 00:00:00");
     setColor(12);
     printf("\n  \t  \t  S U D O K U \n");
     for (i = 0; i < 9; i++)
@@ -304,6 +306,12 @@ void remplir_sudoku(int sudoku[9][9])
             sudoku_origine[i][j]=sudoku[i][j];
         }
     }
+
+    /*************************/
+    clock_t debut, fin;
+
+    /*****************************/
+    debut =clock(); //le temps de debut
     //tanque le sudoku n'est pas rempli
     while((!is_empty(sudoku)))
     {
@@ -317,6 +325,8 @@ void remplir_sudoku(int sudoku[9][9])
                scanf("%d",&l);
                if(l == -1)
                   {
+                      fin=clock();//le temps de fin
+                      temps_de_jeu =(((double)(fin - debut))/CLOCKS_PER_SEC);
                       sauvegarder(sudoku);
                       break;
                   }
@@ -329,6 +339,8 @@ void remplir_sudoku(int sudoku[9][9])
                     scanf("%d",&c);
                     if(c == -1)
                       {
+                          fin=clock();//le temps de fin
+                          temps_de_jeu =(((double)(fin - debut))/CLOCKS_PER_SEC);
                           sauvegarder(sudoku);
                           break;
                       }
@@ -345,6 +357,8 @@ void remplir_sudoku(int sudoku[9][9])
                 scanf("%d",&v);
                 if(v == -1)
                 {
+                    fin=clock();//le temps de fin
+                    temps_de_jeu =(((double)(fin - debut))/CLOCKS_PER_SEC);
                     sauvegarder(sudoku);
                     break;
 
@@ -358,12 +372,15 @@ void remplir_sudoku(int sudoku[9][9])
         system("cls");
     }
 
+    fin=clock();//le temps de fin
+    temps_de_jeu =(((double)(fin - debut))/CLOCKS_PER_SEC); //la difference entre le temps de debut et de fin en secondes
+    //printf("\n temps = %f",temps_de_jeu);
 }
 //une fonction pour sauvegarder le sudoku dans un fichier .txt dans le dossier sauvegarder
 void sauvegarder(int sudoku[9][9])
 {
     char c;
-    char nom_fichier[30],chemin[50];
+    char nom_fichier[30],nom_fichier2[30],chemin[50],chemin2[50];
     do
     {
         printf("\n Est ce que vous voulez sauvegarder? (o/n): ");
@@ -379,13 +396,26 @@ void sauvegarder(int sudoku[9][9])
         system("cls");
         printf("entrer un nom pour le sauvegarder : ");
         scanf("%s",&nom_fichier);
+        strcpy(nom_fichier2,nom_fichier);
         strcat(nom_fichier,".txt");
-        strcpy(chemin,"sauvegard");
-        strcat(chemin,"/");
+        strcpy(chemin,"sauvegard/grille/");
+        //strcat(chemin,"/grille");
         strcat(chemin,nom_fichier);
-        FILE *myFile;
+        FILE *myFile,*myFile_temps;
         //ouuvrir le fichier qui contient le sudoku non complet en mode de lecture
         myFile = fopen(chemin, "w");
+
+        strcat(nom_fichier2,"_temps.txt");
+        strcpy(chemin2,"sauvegard/temps/");
+        //strcat(chemin2,"/");
+        strcat(chemin2,nom_fichier2);
+        myFile_temps = fopen(chemin2, "w");
+         if (myFile_temps == NULL){
+            printf("Error opening File\n");
+            exit (0);
+        }
+        fprintf(myFile_temps,"%f ",temps_de_jeu);
+
 
         //lire le fichier dans le tableau sudoku[][]
         int i,j;
@@ -403,6 +433,7 @@ void sauvegarder(int sudoku[9][9])
         }
         printf("\n Vous avez bien sauvegarder votre partie");
         fclose(myFile);
+        fclose(myFile_temps);
         delay(2500);
         system("cls");
         creer_menu(sudoku);
@@ -420,6 +451,8 @@ void delay(int milli_secondes)
 //on verifie le sudoku si il est juste ou faux
 void afficher_resulat(int sudoku[9][9])
 {
+    //setColor(12);
+    printf("\n \n temps ecoule : %f",temps_de_jeu);
     if(estValide(sudoku)==81)
     {
         printf("\n Vous avez gagne \n");
@@ -449,7 +482,7 @@ void reprendre(int sudoku[9][9])
     printf("\n les parties deja sauvegarder sont:\n\n");
     /* D:\\TP C\\Sudoku_tests\\test\\sauv test\\ */
     //ouvrire le dossier sauvegard qui se trouve dans le meme dossier du projet
-    if ((dir = opendir ("sauvegard\\")) != NULL) {
+    if ((dir = opendir ("sauvegard\\grille\\")) != NULL) {
       /* print all the files and directories within directory */
       while ((ent = readdir (dir)) != NULL) {
         //pour ne pas afficher les 2 premieres dossier qui : . et ..
@@ -508,8 +541,11 @@ int main()
    // char *niveau;
     creer_menu(sudoku);
     //choix_niveau(sudoku,&niveau);
-    system("cls");
+   system("cls");
+
+
     remplir_sudoku(sudoku);
+
     printf("\n le resultat final du sudoku ");
     affiche(sudoku,level);
     //apres que tout les cases de sudoku sont rempli on affiche le resultat
