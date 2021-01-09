@@ -1,0 +1,63 @@
+# depslib dependency file v1.0
+1610206824 source:d:\tp c\sudoku\sudoku\main.c
+	"sudoku.h"
+	"joueur.h"
+	"statistique.h"
+
+1610208354 d:\tp c\sudoku\sudoku\sudoku.h
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	<string.h>
+	<math.h>
+	<windows.h>
+	<time.h>
+	<dirent.h>
+
+1571580739 d:\tp c\sudoku\sudoku\rlutil\rlutil.h
+	<iostream>
+	<string>
+	<cstdio>
+	<stdio.h>
+	<string.h>
+	<windows.h>
+	<conio.h>
+	<termios.h>
+	<unistd.h>
+	<sys/ioctl.h>
+	<sys/types.h>
+	<sys/time.h>
+
+1610222775 source:d:\tp c\sudoku\sudoku\sudoku.c
+	"sudoku.h"
+	"joueur.h"
+	"rlutil/rlutil.h"
+
+1610203973 source:d:\tp c\sudoku\sudoku\joueur.c
+	"joueur.h"
+
+1610201777 d:\tp c\sudoku\sudoku\joueur.h
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	<string.h>
+	<math.h>
+	<windows.h>
+	<time.h>
+	<dirent.h>
+
+1610222360 source:d:\tp c\sudoku\sudoku\statistique.c
+	"joueur.h"
+	"sudoku.h"
+	"statistique.h"
+
+1610206994 d:\tp c\sudoku\sudoku\statistique.h
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	<string.h>
+	<math.h>
+	<windows.h>
+	<time.h>
+	<dirent.h>
+
