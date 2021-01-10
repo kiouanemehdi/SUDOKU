@@ -75,6 +75,9 @@ void afficher_resulat(int sudoku[9][9]);
 //si le nom existe on affiche le sudoku enregistree dans ce fichier
 void reprendre(int sudoku[9][9]);
 
+//pour calculer le nombre des fichier dans le dossier facile ou difficile ou moyen
+//pour calculer le nombre des sudokus qu'on a
+int get_nombre_fichier(char *niveau);
 
 void Affiche_Aide();
 

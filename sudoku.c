@@ -195,25 +195,66 @@ void import_sudoku(int sudoku[9][9],char *fichier)
         }
     }
 }
+//pour calculer le nombre des fichier dans le dossier facile ou difficile ou moyen
+//pour calculer le nombre des sudokus qu'on a
+int get_nombre_fichier(char *niveau)
+{
+    int nb_fichier=0;
+    char chemin[55];
+    strcpy(chemin,"niveau/");
+    strcat(chemin,niveau);
+    strcat(chemin,"/");
+    DIR *dir;
+    struct dirent *ent;
+
+    if ((dir = opendir (chemin)) != NULL) {
+      /* print all the files and directories within directory */
+      while ((ent = readdir (dir)) != NULL) {
+         nb_fichier++;
+      }
+      closedir (dir);
+    } else {
+      // peut ne pas ouvrire le dossier
+      perror ("");
+      return EXIT_FAILURE;
+    }
+
+
+    return nb_fichier-2;
+}
 //fonction pour choisir le chemin du fichier dans le quelle le sudoku est stocker
 char* choix_sudoku(char *niveau)
 {
-    char *chemin,sud[10]="sudoku";
-    int num=1;
+    char chemin[255],sud[10]="sudoku";
+    int num;char cnum[5];
+    int nb_sudoku=get_nombre_fichier(niveau);
     //num=rand()%10;
-    char cnum=num + '0';
+    do
+    {
+        printf("\n entrer le numero de sudoku que vous voulez (entre 1 et %d): ",nb_sudoku);
+        scanf("%d",&num);
+    }while(num<1 || num>nb_sudoku);
+
+    itoa(num, cnum, 10);
+    //cnum[strlen(cnum)]='\0';
+    //char cnum=num + '0';
+    printf("\n cnum = %s \n",cnum);
     strcpy(chemin,"niveau");
     strcat(chemin,"/");
     strcat(chemin,niveau);
     strcat(chemin,"/");
     strcat(chemin,sud);
-    strncat(chemin, &cnum, 1);
+    strcat(chemin,cnum);
+    //strncat(chemin, &cnum, 1);
     strcat(chemin,".txt");
     int fin=strlen(chemin);
     chemin[fin]='\0';
-    //strcat(chemin,cnum);
+
     //printf("chemin = %s",chemin);
-    return chemin;
+    char * string_chemin;
+    strcpy(string_chemin,chemin);
+
+    return string_chemin;
 }
 // fonction pour creer le chemin apres importer le sudoku
 void create_sudoku(int sudoku[9][9],char *niveau )
