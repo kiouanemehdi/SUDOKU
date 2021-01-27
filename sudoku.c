@@ -78,7 +78,9 @@ void affiche(int sudoku[9][9],char*niveau)
     setColor(YELLOW);
     printf("\nNiveau: %s",niveau);
     setColor(12);
-    printf("\t\t\t\t Appuyer sur [-1] pour revenir au menu");
+    printf("\t\t\t\t Appuyer sur [-1] pour revenir au menu\n");
+    setColor(10);
+    printf("\t\t\t\t\t Appuyer sur [0] pour une aide (max 3 aide)");
     //setColor(YELLOW);
     //printf("\nTemps: 00:00:00");
     setColor(12);
@@ -228,17 +230,19 @@ char* choix_sudoku(char *niveau)
     char chemin[255],sud[10]="sudoku";
     int num;char cnum[5];
     int nb_sudoku=get_nombre_fichier(niveau);
+
     //num=rand()%10;
     do
     {
         printf("\n entrer le numero de sudoku que vous voulez (entre 1 et %d): ",nb_sudoku);
         scanf("%d",&num);
-    }while(num<1 || num>nb_sudoku);
 
+    }while(num<1 || num>nb_sudoku);
+    nb_sud=num;
     itoa(num, cnum, 10);
     //cnum[strlen(cnum)]='\0';
     //char cnum=num + '0';
-    printf("\n cnum = %s \n",cnum);
+    //printf("\n cnum = %s \n",cnum);
     strcpy(chemin,"niveau");
     strcat(chemin,"/");
     strcat(chemin,niveau);
@@ -356,7 +360,11 @@ void remplir_sudoku(int sudoku[9][9])
 
     /*****************************/
     debut =clock(); //le temps de debut
+
+     static int nb_aide=0;
+
     //tanque le sudoku n'est pas rempli
+
     while((!is_empty(sudoku)))
     {
         affiche(sudoku,level);
@@ -374,6 +382,19 @@ void remplir_sudoku(int sudoku[9][9])
                       sauvegarder(sudoku);
                       break;
                   }
+              /******************************************************/
+
+              else if((l == 0)&&(nb_aide<3))
+              {
+                nb_aide++;
+                 int **pos_case=pos_case_vide(sudoku);
+                 int val= get_valeur_case(sudoku,pos_case,level,nb_sud);
+                 printf("\n aide %d la ligne = %d , la colonne = %d  , sa valeur = %d \n",nb_aide,pos_case[0][0]+1,pos_case[1][0]+1,val);
+
+              }
+              else if((nb_aide==3)&& (l==0))
+                    printf("pas d aide vous avez demandez 3 aide");
+              /******************************************************/
             }while(l>9 || l<1);
             do
             {
@@ -388,7 +409,18 @@ void remplir_sudoku(int sudoku[9][9])
                           sauvegarder(sudoku);
                           break;
                       }
+                    if((c == 0)&&(nb_aide<3))
+                        {
+                    nb_aide++;
+                    int **pos_case=pos_case_vide(sudoku);
+                    int val= get_valeur_case(sudoku,pos_case,level,nb_sud);
+                    printf("\n aide %d la ligne = %d , la colonne = %d  , sa valeur = %d \n",nb_aide,pos_case[0][0]+1,pos_case[1][0]+1,val);
+
+                        }
+                    else if((nb_aide==3)&& (c==0))
+                    printf("pas d aide vous avez demandez 3 aide");
                 }
+
 
             }while(c>9 || c<1 );
 
@@ -407,11 +439,25 @@ void remplir_sudoku(int sudoku[9][9])
                     break;
 
                 }
+                if((v == 0)&&(nb_aide<3))
+                  {
+                    nb_aide++;
+                     int **pos_case=pos_case_vide(sudoku);
+                     int val= get_valeur_case(sudoku,pos_case,level,nb_sud);
+                     printf("\n aide %d la ligne = %d , la colonne = %d  , sa valeur = %d \n",nb_aide,pos_case[0][0]+1,pos_case[1][0]+1,val);
+
+                  }
+                 else if((nb_aide==3)&& (v==0))
+                    printf("pas d aide vous avez demandez 3 aide");
             }
         }while(v>9 || v<1);
 
         //stocke la valeur entrer par l'utilisateur dans le tableau sudoku
         sudoku[l-1][c-1]=v;
+        // appel fonction qui retourne la positions des cases contenant des 0 dans un tableau
+
+        //apres appele de la fonction qui retourne  la valeur d'une case vide
+
         //pour effacer la console pour un bon affichage
         system("cls");
     }
@@ -623,3 +669,102 @@ void Affiche_Aide()
     if(n==1)
         creer_menu();*/
 }
+
+// fonction qui re tourne un tableau qui contient les positions des cases vides
+//ligne 0 il contient la position des ligne et la ligne 1 contient les colonnes
+int** pos_case_vide(int sudoku[9][9])
+{
+    int **position_case;
+
+    position_case= (int **)malloc(2 * sizeof(int *));
+    for (int i=0; i<2; i++)
+         position_case[i] = (int *)malloc(81 * sizeof(int));
+
+    int i,j;
+    int k=0;
+    bool etat=false;
+    //on stoque les indices des cases qui sont deja rempli dans un tableau position_case
+    //l'indices de la ligne dans position_case[i] et l'indices de la colonne dans position_case[j]
+    for(i=0;i<9;i++)
+    {
+        for(j=0;j<9;j++)
+        {
+            if (sudoku[i][j]==0)
+            {
+                position_case[0][k]=i;
+                position_case[1][k]=j;
+                k++;
+            }
+        }
+    }
+    return position_case;
+}
+// fonction pour aider le joueur
+int get_valeur_case(int sudoku[9][9],int **pos_case,char *niveau,int nb_sudoku)
+{
+    int solution_sudoku[9][9];
+
+
+    create_solution(solution_sudoku,niveau, nb_sudoku);
+
+    // rnregistrer la position de la premiere case vide dans l et c
+    int l=pos_case[0][0];
+
+    int c=pos_case[1][0];
+    // la valeur correcte de la case l,c
+
+    int val_solution=solution_sudoku[l][c];
+
+    return val_solution;
+
+}
+
+//fonction pour choisir le chemin du fichier dans le quelle la solution du sudoku est stocker
+char* choix_solution(char *niveau,int num)
+{
+    char chemin[255],sud[10]="sudoku";
+    //int num;
+    char cnum[5];
+    int nb_sudoku=get_nombre_fichier(niveau);
+
+    itoa(num, cnum, 10);
+    //cnum[strlen(cnum)]='\0';
+    //char cnum=num + '0';
+   // printf("\n cnum = %s \n",cnum);
+    strcpy(chemin,"solution");
+    strcat(chemin,"/");
+    strcat(chemin,niveau);
+    strcat(chemin,"/");
+    strcat(chemin,sud);
+    strcat(chemin,cnum);
+    //strncat(chemin, &cnum, 1);
+    strcat(chemin,"_solution.txt");
+    int fin=strlen(chemin);
+    chemin[fin]='\0';
+
+
+    //printf("chemin = %s",chemin);
+    char * string_chemin;
+    string_chemin=malloc(sizeof(char)*255);
+    strcpy(string_chemin,chemin);
+
+    //free(string_chemin);
+    return string_chemin;
+}
+
+// fonction pour creer le chemin apres importer la solution du sudoku
+void create_solution(int sudoku[9][9],char *niveau,int nb_sudoku )
+{
+    char*solution=choix_solution(niveau,nb_sudoku);
+
+    import_sudoku(sudoku,solution);
+
+}
+
+
+
+
+
+
+
+

@@ -15,6 +15,9 @@ char* level;
 //variable globale pour enregitrer le temps pour resoudre le sudoku
 double temps_de_jeu;
 
+//le numero de sudoku choisi par l'utilisateur
+int nb_sud;
+
 //pour verifier si le sudoku contient encore des 0
 //si il a trouver un seul 0 il retourn false sinon true
 bool is_empty(int sudoku[9][9]);
@@ -80,5 +83,18 @@ void reprendre(int sudoku[9][9]);
 int get_nombre_fichier(char *niveau);
 
 void Affiche_Aide();
+
+// fonction qui re tourne un tableau qui contient les positions des cases vides
+//ligne 0 il contient la position des ligne et la ligne 1 contient les colonnes
+int** pos_case_vide(int sudoku[9][9]);
+
+// fonction pour aider le joueur
+int get_valeur_case(int sudoku[9][9],int **pos_case,char *niveau,int nb_sudoku);
+
+//fonction pour choisir le chemin du fichier dans le quelle la solution du sudoku est stocker
+char* choix_solution(char *niveau,int num);
+
+// fonction pour creer le chemin apres importer la solution du sudoku
+void create_solution(int sudoku[9][9],char *niveau,int nb_sudoku );
 
 #endif // SUDOKU_H_INCLUDED
