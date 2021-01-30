@@ -28,12 +28,13 @@
 	<sys/types.h>
 	<sys/time.h>
 
-1611971828 source:d:\tp c\sudoku\sudoku\sudoku.c
+1612015872 source:d:\tp c\sudoku\sudoku\sudoku.c
 	"sudoku.h"
 	"joueur.h"
+	"statistique.h"
 	"rlutil/rlutil.h"
 
-1610203973 source:d:\tp c\sudoku\sudoku\joueur.c
+1612015941 source:d:\tp c\sudoku\sudoku\joueur.c
 	"joueur.h"
 
 1610201777 d:\tp c\sudoku\sudoku\joueur.h

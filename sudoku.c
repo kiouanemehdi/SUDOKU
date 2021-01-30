@@ -1,7 +1,8 @@
 #include "sudoku.h"
 #include "joueur.h"
+#include "statistique.h"
 /*un fichier contient des fonctions pour ajouter des couleurs dans la consoles
-car la bibliotheque conio.h ne marche pas avec le compilateur Migw de codeblocks*/
+car la bibliotheque conio.h ne marche pas avec le compilateur Mingw de codeblocks*/
 #include "rlutil/rlutil.h"
 
 //pour verifier si le sudoku contient encore des 0
@@ -255,7 +256,7 @@ char* choix_sudoku(char *niveau)
     chemin[fin]='\0';
 
     //printf("chemin = %s",chemin);
-    char * string_chemin;
+    char * string_chemin=malloc(sizeof(char)*255);
     strcpy(string_chemin,chemin);
 
     return string_chemin;
@@ -504,7 +505,7 @@ void remplir_sudoku(int sudoku[9][9])
 void sauvegarder(int sudoku[9][9])
 {
     char c;
-    char nom_fichier[30],nom_fichier2[30],chemin[50],chemin2[50];
+    char nom_fichier[30],/*nom_fichier2[30],*/chemin[50]/*,chemin2[50]*/;
     do
     {
         printf("\n Est ce que vous voulez sauvegarder? (o/n): ");
@@ -519,7 +520,7 @@ void sauvegarder(int sudoku[9][9])
     {
         system("cls");
         printf("entrer un nom pour le sauvegarder : ");
-        scanf("%s",&nom_fichier);
+        scanf("%s",nom_fichier);
 
         //strcpy(nom_fichier2,nom_fichier);
         strcat(nom_fichier,".txt");
@@ -530,7 +531,7 @@ void sauvegarder(int sudoku[9][9])
         //strcpy(chemin,"sauvegard/grille/");
         //strcat(chemin,"/grille");
         strcat(chemin,nom_fichier);
-        FILE *myFile,*myFile_temps;
+        FILE *myFile/*, *myFile_temps*/;
         //ouuvrir le fichier qui contient le sudoku non complet en mode de lecture
         myFile = fopen(chemin, "w");
 
@@ -623,7 +624,8 @@ void reprendre(int sudoku[9][9])
     } else {
       // peut ne pas ouvrire le dossier
       perror ("");
-      return EXIT_FAILURE;
+      creer_menu(sudoku);
+      //exit(23);
     }
     char part[50];
 
@@ -670,7 +672,7 @@ void Affiche_Aide()
     if(file==NULL)
     {
         printf("\n erreur ");
-        fclose(ligne);
+        fclose(file);
     }
 
 
@@ -705,7 +707,7 @@ int** pos_case_vide(int sudoku[9][9])
 
     int i,j;
     int k=0;
-    bool etat=false;
+    //bool etat=false;
     //on stoque les indices des cases qui sont deja rempli dans un tableau position_case
     //l'indices de la ligne dans position_case[i] et l'indices de la colonne dans position_case[j]
     for(i=0;i<9;i++)
@@ -748,7 +750,7 @@ char* choix_solution(char *niveau,int num)
     char chemin[255],sud[10]="sudoku";
     //int num;
     char cnum[5];
-    int nb_sudoku=get_nombre_fichier(niveau);
+   // int nb_sudoku=get_nombre_fichier(niveau);
 
     itoa(num, cnum, 10);
     //cnum[strlen(cnum)]='\0';

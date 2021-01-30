@@ -45,7 +45,7 @@ char* lire_pseudo()
     else {
       // peut ne pas ouvrire le dossier
       perror ("");
-      return EXIT_FAILURE;
+      exit(22);
     }
 }
 
