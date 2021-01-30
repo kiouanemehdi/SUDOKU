@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1610206824 source:d:\tp c\sudoku\sudoku\main.c
+1611971842 source:d:\tp c\sudoku\sudoku\main.c
 	"sudoku.h"
 	"joueur.h"
 	"statistique.h"
@@ -28,7 +28,7 @@
 	<sys/types.h>
 	<sys/time.h>
 
-1611765284 source:d:\tp c\sudoku\sudoku\sudoku.c
+1611971828 source:d:\tp c\sudoku\sudoku\sudoku.c
 	"sudoku.h"
 	"joueur.h"
 	"rlutil/rlutil.h"
@@ -46,7 +46,7 @@
 	<time.h>
 	<dirent.h>
 
-1610222360 source:d:\tp c\sudoku\sudoku\statistique.c
+1611962142 source:d:\tp c\sudoku\sudoku\statistique.c
 	"joueur.h"
 	"sudoku.h"
 	"statistique.h"

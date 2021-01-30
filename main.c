@@ -9,14 +9,12 @@ int main()
    // char *niveau;
     creer_menu(sudoku);
     //choix_niveau(sudoku,&niveau);
-   system("cls");
+    /*system("cls");
+    remplir_sudoku(sudoku);*/
 
-
-    remplir_sudoku(sudoku);
-
-    printf("\n le resultat final du sudoku ");
+    /*printf("\n le resultat final du sudoku ");
     affiche(sudoku,level);
     //apres que tout les cases de sudoku sont rempli on affiche le resultat
-    afficher_resulat(sudoku);
+    afficher_resulat(sudoku);*/
 
 }

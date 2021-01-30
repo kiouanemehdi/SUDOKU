@@ -95,4 +95,7 @@ void affiche_statistique(char* pseudo)
     printf("\t\t le temps moyen que vous avez passer dans chaque partie est : %f seconde \n\n ",get_moyen_temps(pseudo));
 
     printf("\t\t ************************************************************************");
+
+
+
 }

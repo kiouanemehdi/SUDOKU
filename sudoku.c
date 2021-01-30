@@ -317,22 +317,55 @@ void creer_menu(int sudoku[9][9])
         case 1:
             system("cls");
             choix_niveau(sudoku);
+            system("cls");
+            remplir_sudoku(sudoku);
+            printf("\n le resultat final du sudoku ");
+            affiche(sudoku,level);
+            //apres que tout les cases de sudoku sont rempli on affiche le resultat
+            afficher_resulat(sudoku);
             break;
         case 2:
             system("cls");
             reprendre(sudoku);
+            system("cls");
+            remplir_sudoku(sudoku);
+            printf("\n le resultat final du sudoku ");
+            affiche(sudoku,level);
+            //apres que tout les cases de sudoku sont rempli on affiche le resultat
+            afficher_resulat(sudoku);
             break;
         case 3:
             system("cls");
             char* pseudo = lire_pseudo();
             system("cls");
             affiche_statistique(pseudo);
-            creer_menu(sudoku);
+            int n;
+            do
+            {
+                printf("\n Entrer [-1] pour revenir au menu : ");
+                scanf("%d",&n);
+            }while(n!=(-1));
+            if(n==-1)
+            {
+                system("cls");
+                creer_menu(sudoku);
+            }
+
             break;
         case 4:
             system("cls");
             Affiche_Aide();
-            creer_menu(sudoku);
+            int nn;
+            do
+            {
+                printf("\n Entrer [-1] pour revenir au menu : ");
+                scanf("%d",&nn);
+            }while(nn!=(-1));
+            if(nn==-1)
+            {
+                system("cls");
+                creer_menu(sudoku);
+            }
             break;
         case 5:
             exit(30);
@@ -361,6 +394,7 @@ void remplir_sudoku(int sudoku[9][9])
     /*****************************/
     debut =clock(); //le temps de debut
 
+    // variable pour calculer le nombre des fois que lutilisateur a cliquer sur 0 c-a-d il a demander une aide
      static int nb_aide=0;
 
     //tanque le sudoku n'est pas rempli
@@ -389,7 +423,7 @@ void remplir_sudoku(int sudoku[9][9])
                 nb_aide++;
                  int **pos_case=pos_case_vide(sudoku);
                  int val= get_valeur_case(sudoku,pos_case,level,nb_sud);
-                 printf("\n aide %d la ligne = %d , la colonne = %d  , sa valeur = %d \n",nb_aide,pos_case[0][0]+1,pos_case[1][0]+1,val);
+                 printf("\n aide n %d : la ligne = %d , la colonne = %d  , sa valeur = %d \n",nb_aide,pos_case[0][0]+1,pos_case[1][0]+1,val);
 
               }
               else if((nb_aide==3)&& (l==0))
@@ -414,7 +448,7 @@ void remplir_sudoku(int sudoku[9][9])
                     nb_aide++;
                     int **pos_case=pos_case_vide(sudoku);
                     int val= get_valeur_case(sudoku,pos_case,level,nb_sud);
-                    printf("\n aide %d la ligne = %d , la colonne = %d  , sa valeur = %d \n",nb_aide,pos_case[0][0]+1,pos_case[1][0]+1,val);
+                    printf("\n aide n %d : la ligne = %d , la colonne = %d  , sa valeur = %d \n",nb_aide,pos_case[0][0]+1,pos_case[1][0]+1,val);
 
                         }
                     else if((nb_aide==3)&& (c==0))
@@ -444,7 +478,7 @@ void remplir_sudoku(int sudoku[9][9])
                     nb_aide++;
                      int **pos_case=pos_case_vide(sudoku);
                      int val= get_valeur_case(sudoku,pos_case,level,nb_sud);
-                     printf("\n aide %d la ligne = %d , la colonne = %d  , sa valeur = %d \n",nb_aide,pos_case[0][0]+1,pos_case[1][0]+1,val);
+                     printf("\n aide n %d : la ligne = %d , la colonne = %d  , sa valeur = %d \n",nb_aide,pos_case[0][0]+1,pos_case[1][0]+1,val);
 
                   }
                  else if((nb_aide==3)&& (v==0))
@@ -500,18 +534,6 @@ void sauvegarder(int sudoku[9][9])
         //ouuvrir le fichier qui contient le sudoku non complet en mode de lecture
         myFile = fopen(chemin, "w");
 
-        /*strcat(nom_fichier2,"_temps.txt");
-        strcpy(chemin2,"sauvegard/temps/");
-        //strcat(chemin2,"/");
-        strcat(chemin2,nom_fichier2);
-        myFile_temps = fopen(chemin2, "w");
-         if (myFile_temps == NULL){
-            printf("Error opening File\n");
-            exit (0);
-        }
-        fprintf(myFile_temps,"%f ",temps_de_jeu);*/
-
-
         //lire le fichier dans le tableau sudoku[][]
         int i,j;
         if (myFile == NULL){
@@ -535,6 +557,7 @@ void sauvegarder(int sudoku[9][9])
         //fclose(myFile_temps);
         delay(2500);
         system("cls");
+
         creer_menu(sudoku);
     }
 

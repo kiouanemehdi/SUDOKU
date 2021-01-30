@@ -1,12 +1,22 @@
 	
 	************ Comment Jouer ***************
-aaaaaaaaaaaaaaaaaaaaaaaaaaaa
 
-aaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaa
-a
-aaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+. Les regles du sudoku sont tres simples. 
+
+  * Un sudoku classique contient neuf lignes et neuf colonnes, 
+    donc 81 cases au total.
+
+  * Le but du jeu est de remplir ces cases avec des chiffres 
+    allant de 1 a 9 en veillant toujours a ce qu'un meme 
+    chiffre    ne    figure     qu' une    seule    fois 
+    par colonne, une seule fois par ligne, et une seule 
+    fois     par     carre      de      neuf      cases.
+
+  * Au debut du jeu, une vingtaine de chiffres sont deja 
+    places et il  vous  reste  a   trouver   les  autres. 
+
+  * En effet, une grille initiale de sudoku correctement 
+    constituee ne peut aboutir qu'a une et une seule solution. 
+
+  * Pour trouver les chiffres manquants, tout est une question 
+    de logique et d'observation.
